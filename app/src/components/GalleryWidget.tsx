@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 export default function GalleryWidget() {
   const [images, setImages] = useState<string[]>([
@@ -45,13 +46,13 @@ export default function GalleryWidget() {
     >
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
-        <button className="px-5 py-2 rounded-xl bg-[rgba(0,0,0,0.5)] text-white text-sm font-medium   inset-shadow-sm backdrop-blur-md border border-[rgba(255,255,255,0.08)]">
+        <button className="px-5 py-2 rounded-xl bg-[rgba(0,0,0,0.5)] text-white text-sm font-medium inset-shadow-sm backdrop-blur-md border border-[rgba(255,255,255,0.08)]">
           Gallery
         </button>
 
         <div className="flex items-center gap-3">
-          <label className="flex items-center  gap-2 text-center bg-[rgba(30,34,42,0.5)] px-4 py-2 rounded-xl text-sm text-gray-300 cursor-pointer shadow-xl-30 backdrop-blur-md transition-all border border-[rgba(255,255,255,0.08)]  hover:bg-[rgba(255,255,255,0.1)]">
-            <span className=" mb-1"><Plus size={17} /></span> Add Image
+          <label className="flex items-center gap-2 bg-[rgba(30,34,42,0.5)] px-4 py-2 rounded-xl text-sm text-gray-300 cursor-pointer shadow-xl backdrop-blur-md transition-all border border-[rgba(255,255,255,0.08)] hover:bg-[rgba(255,255,255,0.1)]">
+            <Plus size={17} /> Add Image
             <input
               type="file"
               accept="image/*"
@@ -63,13 +64,13 @@ export default function GalleryWidget() {
           <div className="flex items-center gap-2">
             <button
               onClick={() => handleScroll("left")}
-              className="p-2 rounded-full bg-[rgba(255,255,255,0.08)] hover:bg-[rgba(0,0,0,0.5)] transition-all  shadow-xl/30 border border-[rgba(255,255,255,0.08)] backdrop-blur-md"
+              className="p-2 rounded-full bg-[rgba(255,255,255,0.08)] hover:bg-[rgba(0,0,0,0.5)] transition-all border border-[rgba(255,255,255,0.08)] backdrop-blur-md"
             >
               <ChevronLeft size={18} className="text-gray-200" />
             </button>
             <button
               onClick={() => handleScroll("right")}
-              className="p-2 rounded-full bg-[rgba(255,255,255,0.08)] hover:bg-[rgba(0,0,0,0.5)] transition-all shadow-xl/30 border border-[rgba(255,255,255,0.08)] backdrop-blur-md"
+              className="p-2 rounded-full bg-[rgba(255,255,255,0.08)] hover:bg-[rgba(0,0,0,0.5)] transition-all border border-[rgba(255,255,255,0.08)] backdrop-blur-md"
             >
               <ChevronRight size={18} className="text-gray-200" />
             </button>
@@ -80,7 +81,7 @@ export default function GalleryWidget() {
       {/* Gallery Images */}
       <div
         ref={scrollRef}
-        className="flex gap-4 overflow-x-auto no-scrollbar scroll-smooth  hover:"
+        className="flex gap-4 overflow-x-auto no-scrollbar scroll-smooth"
       >
         <AnimatePresence>
           {images.map((src, index) => (
@@ -91,13 +92,15 @@ export default function GalleryWidget() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="min-w-[180px] h-[180px]  rounded-2xl overflow-hidden shrink-0 
+              className="relative min-w-[180px] h-[180px] rounded-2xl overflow-hidden shrink-0 
                          shadow-lg hover:shadow-2xl transition-all border border-[rgba(255,255,255,0.08)]"
             >
-              <img
+              <Image
                 src={src}
                 alt={`Gallery ${index}`}
-                className="w-full h-full hover:h-[190px] object-cover hover:scale-105 transition-transform duration-300"
+                fill
+                sizes="180px"
+                className="object-cover hover:scale-105 transition-transform duration-300"
               />
             </motion.div>
           ))}
@@ -105,7 +108,7 @@ export default function GalleryWidget() {
       </div>
 
       {/* Soft gradient overlay */}
-      <div className="absolute inset-0 rounded-2xl pointer-events-none bg-linear-to-br from-[rgba(255,255,255,0.05)] to-transparent" />
+      <div className="absolute inset-0 rounded-2xl pointer-events-none bg-gradient-to-br from-[rgba(255,255,255,0.05)] to-transparent" />
     </motion.div>
   );
 }
